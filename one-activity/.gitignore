@@ -8,3 +8,25 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+# Archivos de configuración de IDE (ejemplo PhpStorm)
+.idea/
+
+# Archivos de entorno locales (no subas .env)
+.env
+
+
+# Archivos de Composer que no se deben subir
+composer.lock
+
+# Archivos temporales y de caché
+*.log
+*.swp
+*.swo
+.cache/
+
+# Archivos específicos de Symfony
+var/
+# Ignorar el archivo de Symfony que contiene configuraciones del entorno
+symfony.lock
+
+
