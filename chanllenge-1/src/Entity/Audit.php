@@ -1,25 +1,26 @@
 <?php
 
 namespace App\Entity;
+
 use DateTimeInterface;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-#[ORM\Entity]
-class Projects
+class Audit
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private  ? int $id;
     #[ORM\Column(type: 'string', length: 100)]
 
-    private ? string $title;
+    private ? string $user;
     #[ORM\Column(type: 'string', length: 100)]
 
-    private  ? DateTimeInterface $startDate;
+    private  ? string $action;
     #[ORM\Column(type: 'string', length: 100)]
 
-    private ? DateTimeInterface $endDate;
-    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'employee')]
-    private ? Collection $employees;
+    private ? DateTimeInterface $dateTime;
+
+    private  ? string $entityClass;
+
 }
