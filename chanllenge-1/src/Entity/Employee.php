@@ -18,7 +18,7 @@ class Employee
     private ? string $email;
     #[ORM\Column(type: 'string', length: 100)]
     private ? string $position;
-    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'employee')]
+    #[ORM\ManyToMany(targetEntity: Projects::class, mappedBy: 'employee')]
     private ? Collection $projects;
 
 

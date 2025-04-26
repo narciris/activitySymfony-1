@@ -20,6 +20,6 @@ class Projects
     #[ORM\Column(type: 'string', length: 100)]
 
     private ? DateTimeInterface $endDate;
-    #[ORM\OneToMany(targetEntity: Projects::class, mappedBy: 'employee')]
+    #[ORM\ManyToMany(targetEntity: Projects::class, mappedBy: 'employee')]
     private ? Collection $employees;
 }
