@@ -59,5 +59,21 @@ class UserController extends AbstractController
             return $this->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    #[Route('/users/{id}/upload-image', name: 'upload_user_image', methods: ['POST'])]
+    public function uploadImage(int $id, Request $request): JsonResponse
+    {
+        try {
+            $file = $request->files->get('image');
+
+            $imgPath = $this->userService->uploadFile($id, $file);
+
+            return $this->json([
+                'message' => 'Imagen subida correctamente',
+                'img' => $imgPath
+            ]);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => $e->getMessage()], 400);
+        }
+    }
 
 }

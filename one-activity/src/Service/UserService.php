@@ -7,14 +7,18 @@ namespace App\Service;
 use App\Dtos\UserDto;
 use App\Dtos\UserRequestDto;
 use App\Entity\Users;
+use Doctrine\DBAL\Driver\PDO\Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserService
 {
     private EntityManagerInterface $entityManager;
-     public function __construct(EntityManagerInterface $entityManager)
+    private $uploadDirectory;
+     public function __construct(EntityManagerInterface $entityManager, $uploadDirectory)
      {
          $this->entityManager = $entityManager;
+         $this->uploadDirectory = $uploadDirectory;
      }
 
      public function findAll() : array
@@ -61,5 +65,30 @@ class UserService
          }
 
          return $this->mapToUserDto($users);
+     }
+
+
+     public function uploadFile(int $user,UploadedFile $uploadedFile)
+     {
+         if(!$uploadedFile){
+             throw new Exception("no se encontro ningun archivo");
+         }
+
+         $user = $this->entityManager->getRepository(Users::class)->find($user);
+         if(!$user){
+             throw new Exception("usuario no encontrado");
+         }
+         $filename = uniqid() . '.' . $uploadedFile->guessExtension();
+         if (!in_array($uploadedFile->getMimeType(), ['image/jpeg', 'image/png', 'image/gif', 'image/webp'])) {
+             throw new Exception('Solo puedes subir imagenes.');
+         }
+         $uploadedFile->move($this->uploadDirectory, $filename);
+
+
+         $user->setImgUrl('/uploads/profile_images/' . $filename);
+         $this->entityManager->flush();
+
+         return $user->getImgUrl();
+
      }
 }

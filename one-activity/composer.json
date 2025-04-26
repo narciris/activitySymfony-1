@@ -6,6 +6,7 @@
     "require": {
         "php": ">=8.2",
         "ext-ctype": "*",
+        "ext-http": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^2.0",
         "doctrine/dbal": "^3",
@@ -16,9 +17,9 @@
         "symfony/dotenv": "7.2.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.2.*",
+        "symfony/mime": "7.2.*",
         "symfony/runtime": "7.2.*",
-        "symfony/yaml": "7.2.*",
-      "ext-http": "*"
+        "symfony/yaml": "7.2.*"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.62"
