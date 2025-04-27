@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Proyectos{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <h1>Lista de empleados</h1>
+
+{#        <a href="{{ path('employee_create') }}" class="btn btn-primary mb-3">Crear nuevo empleado</a>#}
+
+        {% if employees is defined and employees|length > 0 %}
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Fecha de inicio</th>
+                    <th>Fecha de fin</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for employee in employees %}
+                    <tr>
+                        <td>{{ employee.name }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.position }}</td>
+                        <td class="text-center">
+                            <!-- Botón Ver -->
+                            <a href="{{ path('employee_show', {'id': employee.id}) }}" class="btn btn-sm btn-info" title="Ver empleado">
+                                Ver
+                            </a>
+
+                            <!-- Botón Editar -->
+                            <a href="{{ path('employee_edit', {'id': employee.id}) }}" class="btn btn-sm btn-warning" title="Editar empleado">
+                                Editar
+                            </a>
+
+                            <!-- Formulario para Eliminar -->
+                            <form action="{{ path('employee_delete', {'id': employee.id}) }}" method="post" class="d-inline-block" onsubmit="return confirmDelete();">
+                                <button type="submit" class="btn btn-sm btn-danger" title="Eliminar empleado">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="alert alert-info">
+                No hay Empleados disponibles. ¡Registra un nuevo empleado!
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
