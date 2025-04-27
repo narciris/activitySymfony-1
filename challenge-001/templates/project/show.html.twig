@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Project Details{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ project.id }}</h1>
+        <p>{{ project.name }}</p>
+        <a href="{{ path('project_home') }}" class="btn btn-secondary">Back to Project List</a>
+    </div>
+{% endblock %}

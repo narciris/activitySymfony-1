@@ -1,0 +1,39 @@
+{# templates/project/create.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear Proyecto{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Crear Nuevo Proyecto</h1>
+
+        {# Mostrar mensajes de error si hay #}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <form method="post" action="{{ path('project_store') }}">
+            <div class="mb-3">
+                <label for="title" class="form-label">Título del Proyecto</label>
+                <input type="text" class="form-control" id="title" name="title" required placeholder="Escribe el título">
+            </div>
+
+            <div class="mb-3">
+                <label for="startDate" class="form-label">Fecha de Inicio</label>
+                <input type="date" class="form-control" id="startDate" name="startDate" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="endDate" class="form-label">Fecha de Finalización</label>
+                <input type="date" class="form-control" id="endDate" name="endDate" required>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
+                <a href="{{ path('project_list') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

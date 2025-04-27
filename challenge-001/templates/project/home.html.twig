@@ -1,17 +1,33 @@
+{% extends 'base.html.twig' %}
 {% block body %}
-    <div class="container">
-        <h1 class="text-center">Tus proyectos</h1>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4 fw-bold text-primary">Tus proyectos</h1>
+            </div>
+        </div>
 
         <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Project Title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+            {% for project in projects %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-lg border-0 h-100">
+                        <!-- Imagen del proyecto con mejoras -->
+                        <img src="{{ project.imagePath }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Project image">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold">{{ project.name }}</h5>
+                            <p class="card-text">
+                                {{ project.description | slice(0, 100) ~ '...' }}
+                            </p>
+                            <p class="text-muted"><i class="bi bi-calendar"></i></p>
+                            <div class="mt-auto">
+                                <a href="{{ path('project_show', {'id': project.id}) }}" class="btn btn-primary w-100">
+                                    Ver detalles
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
