@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Dtos\ProjectRequestDto;
 use App\Service\ProjectService;
+use DateTime;
 use PharIo\Manifest\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,8 +25,9 @@ class ProjectController extends AbstractController
     {
         try {
             $user = $this->getUser();
-
             if (!$user) {
+                $this->addFlash('error',
+                    'Debes iniciar sesión para acceder a esta página');
                 return $this->redirectToRoute('app_login');
             }
 
@@ -33,12 +35,21 @@ class ProjectController extends AbstractController
 
             return $this->render('project/home.html.twig',
                 ['projects' => $projects]);
-        }catch (\Exception $e){
-            return $this->redirectToRoute('app_login');
-        }
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Error al cargar proyectos: ' . $e->getMessage());
+
+            if (!$this->getUser()) {
+                return $this->redirectToRoute('app_login');
+            }
+
+            return $this->render('error/general.html.twig', [
+                'message' => $e->getMessage()
+            ]);
+    }
+
 
     }
-    #[Route('/findById/{id}', name: 'project_findId')]
+    #[Route('/findById/{id}', name: 'project_show')]
 
     public function show(int $id) : Response
     {
@@ -55,11 +66,11 @@ class ProjectController extends AbstractController
     {
         $projectDto = new ProjectRequestDto();
         $projectDto->setTitle($request->get('title'));
-        $projectDto->setStartDate($request->get('startDate'));
-        $projectDto->setEndDate($request->get('endDate'));
+        $projectDto->setStartDate(new DateTime($request->get('startDate')));
+        $projectDto->setEndDate(new DateTime($request->get('endDate')));
 
         try {
-          $create=  $this->projecService->createProject($projectDto);
+           $this->projecService->createProject($projectDto);
           return  $this->redirectToRoute('project_home');
         }catch (\Exception $e) {
             $this->addFlash('error', $e->getMessage());

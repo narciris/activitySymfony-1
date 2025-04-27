@@ -16,7 +16,7 @@ class Audit
     private ? string $user;
     #[ORM\Column(type: 'string', length: 100)]
     private  ? string $action;
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'datetime')]
     private ? \DateTime $dateTime;
     #[ORM\Column(type: 'string', length: 100)]
     private  ? string $entityClass;

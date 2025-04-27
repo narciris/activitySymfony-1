@@ -25,7 +25,7 @@ class ProjectService
             $projects = $this->entityManager->getRepository(Project::class)->findAll();
             return  $projects;
         }catch (\Exception $e){
-            throw new Exception("Error al recuperar proyectos");
+            throw new Exception("Error al recuperar proyectos", $e->getCode(), $e->getMessage());
         }
     }
 
@@ -44,6 +44,8 @@ class ProjectService
         $projectDto = new PRojectResponseDto();
         $projectDto->setName($project->getTitle());
         $projectDto->setId($project->getId());
+        $projectDto->setStartDate($project->getStartDate());
+        $projectDto->setEndDate($project->getEndDate());
 
         return $projectDto;
 

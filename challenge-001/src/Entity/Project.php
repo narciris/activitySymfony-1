@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
@@ -13,15 +14,18 @@ class Project
     #[ORM\Column(type: 'string', length: 100)]
 
     private ? string $title;
-    #[ORM\Column(type: 'string', length: 100)]
-
+    #[ORM\Column(type: 'datetime')]
     private  ? \DateTime $startDate;
-    #[ORM\Column(type: 'string', length: 100)]
-
+    #[ORM\Column(type: 'datetime')]
     private ? \DateTime $endDate;
     #[ORM\ManyToMany(targetEntity: Employee::class, inversedBy: 'employee')]
     #[ORM\JoinTable(name: 'project_employee')]
     private ? Collection $employees;
+
+    public function __construct()
+    {
+        $this->employees = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
