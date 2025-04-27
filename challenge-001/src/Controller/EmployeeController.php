@@ -62,13 +62,26 @@ class EmployeeController extends AbstractController
     #[Route('/show/{id}',name:'employee_show', methods: ['GET'])]
     public function show(int $id)
     {
+        $employee = $this->employeeService->findById($id);
+        return $this->render(
+            'employees/show.html.twig',
+            ['employee'=>$employee]);
     }
    #[Route('/edit/{id}',name:'employee_edit', methods: ['GET'])]
-   public function edit(){
-
+   public function edit(int $id){
+       $employee = $this->employeeService->findById($id);
+       return $this->render(
+           'employees/edit.html.twig',
+           ['employee'=>$employee]);
     }
     #[Route('/delete/{id}',name:'employee_delete', methods: ['POST'])]
     public function delete(int $id)
+    {
+
+    }
+
+    #[Route('/update/{id}',name: 'employee_update',methods: ['POST'])]
+    public function update(int $id, Request $request)
     {
 
     }

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+{% block title %}Editar empleado{% endblock %}
+{% block body %}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white text-center py-3">
+                        <h2 class="mb-0">Editar Empleado</h2>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" action="{{ path('employee_update', {'id': employee.id}) }}">
+                            <input type="hidden" name="token" value="{{ csrf_token('edit-employee') }}">
+                            <input type="hidden" name="id" value="{{ employee.id }}">
+
+                            <div class="mb-4">
+                                <label for="name" class="form-label fw-bold">Nombre</label>
+                                <input type="text" id="name" name="name" class="form-control form-control-lg" value="{{ employee.name }}" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="email" class="form-label fw-bold">Email</label>
+                                <input type="email" id="email" name="email" class="form-control form-control-lg" value="{{ employee.email }}" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="position" class="form-label fw-bold">Posición</label>
+                                <select id="position" name="position" class="form-select form-select-lg" required>
+                                    <option value="" disabled selected>Seleccione una posición</option>
+                                    <option value="developer" {% if employee.position == 'developer' %}selected{% endif %}>DEVELOPER</option>
+                                    <option value="manager" {% if employee.position == 'admin' %}selected{% endif %}>ADMIN</option>
+                                    <option value="designer" {% if employee.position == 'qa' %}selected{% endif %}>QA</option>
+                                </select>
+                            </div>
+
+                            <div class="d-grid gap-2 mt-5">
+                                <button type="submit" class="btn btn-primary btn-lg">Guardar Cambios</button>
+                                <a href="{{ path('employee_index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

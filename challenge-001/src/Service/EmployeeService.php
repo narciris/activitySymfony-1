@@ -67,9 +67,17 @@ class EmployeeService
 
     }
 
-    public function getAllEmployees()
+    public function getAllEmployees() : array
     {
        return $this->entityManager->getRepository(Employee::class)->findAll();
     }
 
+    public function findById(int $id) : EmployeeResponseDto
+    {
+      $employee  = $this->entityManager->getRepository(Employee::class)->find($id);
+      if (!$employee){
+          throw new Exception("Empleado no encontrado");
+      }
+      return $this->mapToEmployeeResponseDto($employee);
+    }
 }
