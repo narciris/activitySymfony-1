@@ -5,10 +5,9 @@ namespace App\Service;
 use App\Dtos\EmployeeRequestDto;
 use App\Dtos\EmployeeResponseDto;
 use App\Entity\Employee;
+use App\Enums\EnumPositions;
 use Doctrine\ORM\EntityManagerInterface;
-use EnumPositions;
 use PHPUnit\Util\Exception;
-use Symfony\Component\Security\Http\LoginLink\Exception\ExpiredLoginLinkException;
 
 class EmployeeService
 {
@@ -20,14 +19,17 @@ class EmployeeService
 
     public function createEmployee(EmployeeRequestDto $requestDto) : EmployeeResponseDto
     {
-        $employee = $this->entityManager->getRepository(EmployeeService::class)->findOneBy(['email', $requestDto->getEmail()]);
-        if ($employee) {
+        $existByEmail = $this->entityManager->getRepository(Employee::class)->
+        findOneBy(['email' => $requestDto->getEmail()]);
+        if ($existByEmail) {
             throw new Exception("el usuario ya esta registrado");
         }
+        $employee = new Employee();
+
         $position = $requestDto->getPosition();
 
         try {
-            $validatePosition = \EnumPositions::from($position);
+            $validatePosition = EnumPositions::from($position);
             $employee->setName($requestDto->getName());
             $employee->setEmail($requestDto->getEmail());
             $employee->setPosition($validatePosition->value);

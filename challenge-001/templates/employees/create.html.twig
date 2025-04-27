@@ -4,42 +4,52 @@
 {% block title %}Crear empleado{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Registrar un empleado</h1>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center py-3">
+                        <h2 class="mb-0">Registrar un empleado</h2>
+                    </div>
 
-        {% for message in app.flashes('error') %}
-            <div class="alert alert-danger">
-                {{ message }}
+                    <div class="card-body p-4">
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+
+                        <form method="post" action="{{ path('employee_store') }}">
+                            <div class="mb-4">
+                                <label for="name" class="form-label fw-bold">Nombre</label>
+                                <input type="text" class="form-control form-control-lg" id="name" name="name" required
+                                       placeholder="Escribe el nombre del usuario">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="email" class="form-label fw-bold">Email</label>
+                                <input type="email" class="form-control form-control-lg" id="email" name="email" required
+                                       placeholder="Escribe el correo del usuario">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="position" class="form-label fw-bold">Posición</label>
+                                <select class="form-select form-select-lg" id="position" name="position" required>
+                                    <option value="" disabled selected>Seleccione una posición</option>
+                                    <option value="developer">DEVELOPER</option>
+                                    <option value="qa">QA</option>
+                                    <option value="admin">ADMIN</option>
+                                </select>
+                            </div>
+
+                            <div class="d-grid gap-2 mt-5">
+                                <button type="submit" class="btn btn-primary btn-lg">Guardar Empleado</button>
+                                <a href="{{ path('employee_index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
-
-        <form method="post" action="{{ path('employee_store') }}">
-            <div class="mb-3">
-                <label for="title" class="form-label">Título del Proyecto</label>
-                <input type="text" class="form-control" id="title" name="title" required placeholder="Escribe el nombre del usuario">
-            </div>
-
-            <div class="mb-3">
-                <label for="startDate" class="form-label">Fecha de Inicio</label>
-                <input type="date" class="form-control" id="startDate" name="startDate" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="endDate" class="form-label">Fecha de Finalización</label>
-                <input type="date" class="form-control" id="endDate" name="endDate" required>
-            </div>
-
-
-            <div class="mb-3">
-                <label for="employees">IDs de empleados (separados por comas)</label>
-                <input type="text" class="form-control" id="employees" name="employees" placeholder="Ejemplo: 1, 2, 3" /></input>
-                employees
-            </div>
-
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
-                <a href="{{ path('project_home') }}" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+        </div>
     </div>
 {% endblock %}

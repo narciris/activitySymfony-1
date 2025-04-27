@@ -12,16 +12,15 @@
 
         <h1>Lista de empleados</h1>
 
-{#        <a href="{{ path('employee_create') }}" class="btn btn-primary mb-3">Crear nuevo empleado</a>#}
+        <a href="{{ path('employee_create') }}" class="btn btn-primary mb-3">Crear nuevo empleado</a>
 
         {% if employees is defined and employees|length > 0 %}
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Título</th>
-                    <th>Fecha de inicio</th>
-                    <th>Fecha de fin</th>
-                    <th>Acciones</th>
+                    <th>Nombre</th>
+                    <th >Email</th>
+                    <th >Posicion</th>
                 </tr>
                 </thead>
                 <tbody>
