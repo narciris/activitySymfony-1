@@ -24,6 +24,7 @@ class EmployeeService
         if ($existByEmail) {
             throw new Exception("el usuario ya esta registrado");
         }
+        $this->validateFields($requestDto);
         $employee = new Employee();
 
         $position = $requestDto->getPosition();
@@ -80,4 +81,34 @@ class EmployeeService
       }
       return $this->mapToEmployeeResponseDto($employee);
     }
+
+    public function updateEmployee(int $id, EmployeeRequestDto $requestDto) : EmployeeResponseDto
+    {
+        $findEmployee = $this->entityManager->getRepository(Employee::class)->find($id);
+        if(!$findEmployee){
+            throw new Exception("Empleado no encontrado");
+        }
+        if(!empty(trim($requestDto->getName()))){
+            if($requestDto->getName() !== $findEmployee->getName()){
+                $findEmployee->setName($requestDto->getName());
+            }
+        }
+        if(!empty(trim($requestDto->getEmail() && $requestDto->getEmail() !== $findEmployee->getEmail()))){
+
+                $findEmployee->setEmail($requestDto->getEmail());
+
+        }
+
+        if( $requestDto->getPosition() !== $findEmployee->getPosition()){
+            $findEmployee->setPosition($requestDto->getPosition());
+        }
+        $this->entityManager->persist($findEmployee);
+        $this->entityManager->flush();
+
+        return $this->mapToEmployeeResponseDto($findEmployee);
+
+    }
+
+
+
 }

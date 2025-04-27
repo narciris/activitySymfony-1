@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Dtos\EmployeeRequestDto;
 use App\Entity\Employee;
 use App\Service\EmployeeService;
+use PharIo\Manifest\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,7 @@ class EmployeeController extends AbstractController
         $employeeDto->setPosition($request->get('position'));
 
         try{
-            $employee = $this->employeeService->createEmployee($employeeDto);
+             $this->employeeService->createEmployee($employeeDto);
             $this->addFlash('Success', 'Empleado creado exitosamente');
             return $this->redirectToRoute('employee_index');
         }catch(\Exception $e){
@@ -83,6 +84,20 @@ class EmployeeController extends AbstractController
     #[Route('/update/{id}',name: 'employee_update',methods: ['POST'])]
     public function update(int $id, Request $request)
     {
+            $employeeRequestDto = new EmployeeRequestDto();
+            $employeeRequestDto->setName($request->get('name'));
+            $employeeRequestDto->setEmail($request->get('email'));
+            $employeeRequestDto->setPosition($request->get('position'));
+
+        try {
+            $this->employeeService->updateEmployee($id, $employeeRequestDto);
+            $this->addFlash('Success', 'editaste usuario exitosamente');
+            return $this->redirectToRoute('employee_index');
+        } catch (\Exception $e){
+            $this->addFlash('error', 'Error al actualizar el empleado. ' . $e->getMessage());
+
+            return  $this->redirectToRoute('employee_edit',['id'=>$id]);
+        }
 
     }
 }
