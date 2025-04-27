@@ -98,7 +98,7 @@ class ProjectService
         if($requestDto->getEndDate() !== null && $requestDto->getEndDate() !== $findProject->getEndDate()) {
             $findProject->setEndDate($requestDto->getEndDate());
         }
-        $this->addEmployees($requestDto,$findProject);
+//        $this->addEmployees($requestDto,$findProject);
 
 
         $this->entityManager->flush();
@@ -133,6 +133,20 @@ class ProjectService
         }
     }
 
+public function deleteProject(int $id)
+{
+    $project = $this->entityManager->getRepository(Project::class)->find($id);
+    if(!$project){
+        throw new Exception("proyecto no encontrado");
+    }
 
+    try {
+        $this->entityManager->remove($project);
+        $this->entityManager->flush();
+
+    }catch (\Exception $e){
+        throw new Exception("Error al eliminar el proyecto");
+    }
+}
 
 }

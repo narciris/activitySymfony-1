@@ -33,12 +33,30 @@
                         <td>{{ project.title }}</td>
                         <td>{{ project.startDate|date('d/m/Y') }}</td>
                         <td>{{ project.endDate|date('d/m/Y') }}</td>
-                        <td>
-                            <a href="{{ path('project_show', {'id': project.id}) }}" class="btn btn-sm btn-info">Ver</a>
-                            <a href="{{ path('project_edit', {'id': project.id}) }}" class="btn btn-sm btn-warning">Editar</a>
-                            <a href="#" class="btn btn-sm btn-danger">Eliminar</a>
+                        <td class="text-center">
+                            <!-- Botón Ver -->
+                            <a href="{{ path('project_show', {'id': project.id}) }}" class="btn btn-sm btn-info" title="Ver Proyecto">
+                                Ver
+                            </a>
+
+                            <!-- Botón Editar -->
+                            <a href="{{ path('project_edit', {'id': project.id}) }}" class="btn btn-sm btn-warning" title="Editar Proyecto">
+                                Editar
+                            </a>
+
+                            <!-- Formulario para Eliminar -->
+                            <form action="{{ path('project_delete', {'id': project.id}) }}" method="post" class="d-inline-block" onsubmit="return confirmDelete();">
+                                <button type="submit" class="btn btn-sm btn-danger" title="Eliminar Proyecto">
+                                    Eliminar
+                                </button>
+                            </form>
                         </td>
                     </tr>
+                    <script>
+                        function confirmDelete() {
+                            return confirm("¿Estás seguro de que deseas eliminar este proyecto?");
+                        }
+                    </script>
                 {% endfor %}
                 </tbody>
             </table>

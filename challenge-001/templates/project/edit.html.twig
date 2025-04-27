@@ -6,13 +6,20 @@
     <div class="container mt-4">
         <h1>Editar Proyecto</h1>
 
-        <form method="post" action="">
+        {# Mostrar mensajes de error si hay #}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <form method="post" action="{{ path('project_update', {'id': project.id}) }}">
             <input type="hidden" name="token" value="{{ csrf_token('edit-project') }}">
             <input type="hidden" name="id" value="{{ project.id }}">
 
             <div class="mb-3">
                 <label for="name" class="form-label">Nombre</label>
-                <input type="text" id="name" name="name" class="form-control" value="{{ project.name }}" required>
+                <input type="text" id="name" name="title" class="form-control" value="{{ project.name }}" required>
             </div>
 
             <div class="mb-3">

@@ -62,7 +62,7 @@ class ProjectController extends AbstractController
         }
     }
     #[Route('/store', name: 'project_store', methods: ['POST'])]
-    public function store(Request $request, ProjectService $projectService): Response
+    public function store(Request $request): Response
     {
         $projectDto = new ProjectRequestDto();
         $projectDto->setTitle($request->get('title'));
@@ -97,6 +97,40 @@ class ProjectController extends AbstractController
         return $this->render(
             'project/edit.html.twig',
             ['project'=>$project]);
+    }
+    #[Route('/update/{id}', name: 'project_update', methods: ['POST'])]
+    public function update(int $id, Request $request) : Response
+    {
+        $projectDto = new ProjectRequestDto();
+        $projectDto->setTitle($request->get('title'));
+        $projectDto->setStartDate(new DateTime($request->get('startDate')));
+        $projectDto->setEndDate(new DateTime($request->get('endDate')));
+//        $employeesString = $request->get('employees', '');
+//        $employeesArray = array_map('trim', explode(',', $employeesString));
+//        $projectDto->setEmployeesId($employeesArray);
+
+        try {
+            $this->projecService->updateProject($id, $projectDto);
+            return $this->redirectToRoute('project_home');
+        }catch (\Exception $e) {
+            $this->addFlash('error', $e->getMessage());
+            return  $this->redirectToRoute('project_edit',['id'=>$id]);
+        }
+    }
+
+    #[Route('/delete/{id}', name: 'project_delete', methods: ['POST'])]
+
+    public function delete(int $id) : Response
+    {
+        try{
+            $this->projecService->deleteProject($id);
+            $this->addFlash('Success','proyecto eliminado correctamente');
+            return  $this->redirectToRoute('project_home');
+        }catch (\Exception $e){
+            $this->addFlash('error', 'Hubo un error al eliminar el proyecto: ' . $e->getMessage());
+           return   $this->redirectToRoute('project_home');
+        }
+
     }
 
 
