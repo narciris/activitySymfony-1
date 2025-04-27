@@ -68,6 +68,11 @@ class ProjectController extends AbstractController
         $projectDto->setTitle($request->get('title'));
         $projectDto->setStartDate(new DateTime($request->get('startDate')));
         $projectDto->setEndDate(new DateTime($request->get('endDate')));
+        $employeesString = $request->get('employees', '');
+        $employeesArray = array_map('trim', explode(',', $employeesString));
+        $projectDto->setEmployeesId($employeesArray);
+
+
 
         try {
            $this->projecService->createProject($projectDto);
@@ -83,6 +88,15 @@ class ProjectController extends AbstractController
     {
         return $this->render('project/create.html.twig');
 
+    }
+    #[Route('/edit/{id}', name: 'project_edit', methods: ['GET'])]
+    public function edit(int $id)
+
+    {
+        $project = $this->projecService->getProjectById($id);
+        return $this->render(
+            'project/edit.html.twig',
+            ['project'=>$project]);
     }
 
 

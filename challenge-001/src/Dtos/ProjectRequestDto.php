@@ -8,7 +8,17 @@ class ProjectRequestDto
     private ? string $title;
     private  ? \DateTime $startDate;
     private ? \DateTime $endDate;
+   private array $employeesId = [];
 
+    public function getEmployeesId(): array
+    {
+        return $this->employeesId;
+    }
+
+    public function setEmployeesId(array $employeesId): void
+    {
+        $this->employeesId = $employeesId;
+    }
 
     public function getTitle(): ?string
     {

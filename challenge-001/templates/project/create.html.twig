@@ -30,6 +30,13 @@
                 <input type="date" class="form-control" id="endDate" name="endDate" required>
             </div>
 
+
+            <div class="mb-3">
+                <label for="employees">IDs de empleados (separados por comas)</label>
+                <input type="text" class="form-control" id="employees" name="employees" placeholder="Ejemplo: 1, 2, 3" /></input>
+                employees
+            </div>
+
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Guardar Proyecto</button>
                 <a href="{{ path('project_home') }}" class="btn btn-secondary">Cancelar</a>
