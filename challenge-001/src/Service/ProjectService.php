@@ -6,6 +6,7 @@ use App\Dtos\ProjectRequestDto;
 use App\Dtos\ProjectResponseDto;
 use App\Entity\Employee;
 use App\Entity\Project;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Util\Exception;
 
@@ -118,17 +119,20 @@ class ProjectService
 
     private function addEmployees(ProjectRequestDto $requestDto,Project $project)
     {
-        if(!empty($requestDto->getEmployeesId())){
+
+        if (!empty($requestDto->getEmployeesId())) {
             $employeeRepository = $this->entityManager->getRepository(Employee::class);
+            $employeesCollection = $project->getEmployees() ?? new ArrayCollection();
+
             foreach ($requestDto->getEmployeesId() as $employeeId) {
                 $employee = $employeeRepository->find($employeeId);
-                if($employee){
-                    $project->setEmployees($employee);
-                }
-                else{
-                    throw new Exception("El usuario no existe");
+                if ($employee) {
+                    $employeesCollection->add($employee);
+                } else {
+                    throw new Exception("El usuario con ID {$employeeId} no existe");
                 }
             }
+            $project->setEmployees($employeesCollection);
 
         }
     }

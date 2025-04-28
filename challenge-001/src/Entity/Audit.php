@@ -13,7 +13,7 @@ class Audit
     #[ORM\Column(type: 'integer')]
     private  ? int $id;
     #[ORM\Column(type: 'string', length: 100)]
-    private ? string $user;
+    private ? string $username;
     #[ORM\Column(type: 'string', length: 100)]
     private  ? string $action;
     #[ORM\Column(type: 'datetime')]
@@ -33,15 +33,16 @@ class Audit
         $this->id = $id;
     }
 
-    public function getUser(): ?string
+    public function getUsername(): ?string
     {
-        return $this->user;
+        return $this->username;
     }
 
-    public function setUser(?string $user): void
+    public function setUsername(?string $username): void
     {
-        $this->user = $user;
+        $this->username = $username;
     }
+
 
     public function getAction(): ?string
     {

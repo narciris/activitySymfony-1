@@ -22,7 +22,7 @@ class AuditService
         $username =  $user ? $user->getUserIdentifier() : 'anonymous';
 
         $audit = new Audit();
-        $audit->setUser($username);
+        $audit->setUsername($username);
         $audit->setAction($action);
         $audit->setEntityClass(get_class($entity));
         $audit->setDateTime(new \DateTime);
