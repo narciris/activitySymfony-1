@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250427123839 extends AbstractMigration
+final class Version20250429002915 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,7 +21,7 @@ final class Version20250427123839 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE TABLE audit (id SERIAL NOT NULL, "user" VARCHAR(100) NOT NULL, action VARCHAR(100) NOT NULL, date_time VARCHAR(100) NOT NULL, entity_class VARCHAR(100) NOT NULL, PRIMARY KEY(id))
+            CREATE TABLE audit (id SERIAL NOT NULL, username VARCHAR(100) NOT NULL, action VARCHAR(100) NOT NULL, date_time TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, entity_class VARCHAR(100) NOT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE employee (id SERIAL NOT NULL, name VARCHAR(100) NOT NULL, email VARCHAR(100) NOT NULL, position VARCHAR(100) NOT NULL, PRIMARY KEY(id))
@@ -30,7 +30,7 @@ final class Version20250427123839 extends AbstractMigration
             CREATE UNIQUE INDEX UNIQ_5D9F75A1E7927C74 ON employee (email)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE project (id SERIAL NOT NULL, title VARCHAR(100) NOT NULL, start_date VARCHAR(100) NOT NULL, end_date VARCHAR(100) NOT NULL, PRIMARY KEY(id))
+            CREATE TABLE project (id SERIAL NOT NULL, title VARCHAR(100) NOT NULL, start_date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, end_date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE project_employee (project_id INT NOT NULL, employee_id INT NOT NULL, PRIMARY KEY(project_id, employee_id))
@@ -42,10 +42,10 @@ final class Version20250427123839 extends AbstractMigration
             CREATE INDEX IDX_60D1FE7A8C03F15C ON project_employee (employee_id)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE "user" (id SERIAL NOT NULL, name VARCHAR(100) NOT NULL, email VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL, PRIMARY KEY(id))
+            CREATE TABLE "user" (id SERIAL NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)
+            CREATE UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL ON "user" (email)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))

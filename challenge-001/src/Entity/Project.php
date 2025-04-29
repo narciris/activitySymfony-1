@@ -18,7 +18,7 @@ class Project
     private  ? \DateTime $startDate;
     #[ORM\Column(type: 'datetime')]
     private ? \DateTime $endDate;
-    #[ORM\ManyToMany(targetEntity: Employee::class, inversedBy: 'employee')]
+    #[ORM\ManyToMany(targetEntity: Employee::class, inversedBy: 'projects')]
     #[ORM\JoinTable(name: 'project_employee')]
     private ? Collection $employees;
 
@@ -76,6 +76,13 @@ class Project
     {
         $this->employees = $employees;
     }
-
+   public function addEmployees(Employee $employee) : self
+   {
+       if(!$this->employees->contains($employee)){
+           $this->employees->add($employee);
+           $employee->addProject($this);
+       }
+       return $this;
+   }
 
 }

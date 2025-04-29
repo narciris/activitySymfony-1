@@ -20,7 +20,7 @@ class EmployeeController extends AbstractController
         $this->employeeService = $employeeService;
     }
 
-    #[Route('/api/employees', name:'employee_create', methods: ['GET'])]
+    #[Route('/create', name:'employee_create', methods: ['GET'])]
     public function create()
     {
         return $this->render('employees/create.html.twig');
@@ -78,7 +78,14 @@ class EmployeeController extends AbstractController
     #[Route('/delete/{id}',name:'employee_delete', methods: ['POST'])]
     public function delete(int $id)
     {
-
+        try {
+            $this->employeeService->deleteEmployee($id);
+            $this->addFlash('Success','empleadx eliminadx correctamente');
+            return  $this->redirectToRoute('employee_index');
+        }catch (\Exception $e){
+            $this->addFlash('error', 'Hubo un error al eliminar empleadx: ' . $e->getMessage());
+            return   $this->redirectToRoute('employee_index');
+      }
     }
 
     #[Route('/update/{id}',name: 'employee_update',methods: ['POST'])]
@@ -100,4 +107,5 @@ class EmployeeController extends AbstractController
         }
 
     }
+
 }

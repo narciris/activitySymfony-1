@@ -1,2 +1,2 @@
-GET http://127.0.0.1:8001//register
+GET http://localhost:33531/register
 Accept: application/json

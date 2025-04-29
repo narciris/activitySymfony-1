@@ -24,6 +24,7 @@
                     <th>Título</th>
                     <th>Fecha de inicio</th>
                     <th>Fecha de fin</th>
+                    <th>Empleadxs asignadxs</th>
                     <th>Acciones</th>
                 </tr>
                 </thead>
@@ -33,6 +34,12 @@
                         <td>{{ project.title }}</td>
                         <td>{{ project.startDate|date('d/m/Y') }}</td>
                         <td>{{ project.endDate|date('d/m/Y') }}</td>
+
+                       {% for employee in project.employees%}
+                        <td>{{ employee.name }}</td>
+                        {% else %}
+                        <p>No hay empleado asignado</p>
+                        {% endfor %}
                         <td class="text-center">
                             <!-- Botón Ver -->
                             <a href="{{ path('project_show', {'id': project.id}) }}" class="btn btn-sm btn-info" title="Ver Proyecto">

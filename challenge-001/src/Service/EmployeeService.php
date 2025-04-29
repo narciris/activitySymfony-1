@@ -5,16 +5,20 @@ namespace App\Service;
 use App\Dtos\EmployeeRequestDto;
 use App\Dtos\EmployeeResponseDto;
 use App\Entity\Employee;
+use App\Entity\Project;
 use App\Enums\EnumPositions;
+use App\Repository\EmployeeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Util\Exception;
 
 class EmployeeService
 {
     private  $entityManager;
-    public function __construct(EntityManagerInterface $entityManager)
+    private $employeeRepository;
+    public function __construct(EntityManagerInterface $entityManager, EmployeeRepository $employeeRepository)
     {
         $this->entityManager = $entityManager;
+        $this->employeeRepository = $employeeRepository;
     }
 
     public function createEmployee(EmployeeRequestDto $requestDto) : EmployeeResponseDto
@@ -70,7 +74,7 @@ class EmployeeService
 
     public function getAllEmployees() : array
     {
-       return $this->entityManager->getRepository(Employee::class)->findAll();
+       return $this->employeeRepository->findAllWithProjects();
     }
 
     public function findById(int $id) : EmployeeResponseDto
@@ -107,6 +111,21 @@ class EmployeeService
 
         return $this->mapToEmployeeResponseDto($findEmployee);
 
+    }
+
+    public function deleteEmployee(int $id)
+    {
+     $employee = $this->entityManager->getRepository(Employee::class)->find($id);
+     if($employee){
+         throw new Exception("empleado no encontrado");
+     }
+
+     try{
+         $this->entityManager->remove($employee);
+         $this->entityManager->flush();
+     }catch (\Exception $e){
+         throw new Exception("error al eliminar empleado");
+     }
     }
 
 

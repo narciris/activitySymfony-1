@@ -28,8 +28,8 @@
                                 <select id="position" name="position" class="form-select form-select-lg" required>
                                     <option value="" disabled selected>Seleccione una posición</option>
                                     <option value="developer" {% if employee.position == 'developer' %}selected{% endif %}>DEVELOPER</option>
-                                    <option value="manager" {% if employee.position == 'admin' %}selected{% endif %}>ADMIN</option>
-                                    <option value="designer" {% if employee.position == 'qa' %}selected{% endif %}>QA</option>
+                                    <option value="admin" {% if employee.position == 'admin' %}selected{% endif %}>ADMIN</option>
+                                    <option value="qa" {% if employee.position == 'qa' %}selected{% endif %}>QA</option>
                                 </select>
                             </div>
 
